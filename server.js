@@ -36,7 +36,10 @@ app.get("/api/timestamp/:date_string?", function (req, res) {
   } else {
     date = new Date(date_string)
   }
-  var data = { unix: date.getTime(), utc: date.toUTCString() }
+  var unix = date.getTime()
+  if (isNaN(unix)) return res.json({ error: 'invalid date' })
+  var utc = date.toUTCString()
+  var data = { unix: unix, utc: utc }
   res.json(data)
 })
 
